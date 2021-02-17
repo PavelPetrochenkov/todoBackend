@@ -1,7 +1,9 @@
+import Router = require("koa-router");
+
 var router = require("koa-router");
 const { userLogin } = require("../controllers/userController");
 
-var userRouter = router();
+var userRouter:Router = router();
 
 userRouter.post("/login", userLogin);
 

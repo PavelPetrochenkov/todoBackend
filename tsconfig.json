@@ -8,5 +8,5 @@
 	},
 	"include": [
 			"./src/**/*"
-	]
+, "server.js", "app.js"	]
 }

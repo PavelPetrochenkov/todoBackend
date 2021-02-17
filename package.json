@@ -13,7 +13,7 @@
   "name": "todobackend",
   "version": "1.0.0",
   "description": "koa project",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
