@@ -19,5 +19,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Petrochenkov Pavel",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/koa": "^2.11.8",
+    "@types/koa-router": "^7.4.1",
+    "@types/node": "^14.14.28",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  }
 }
