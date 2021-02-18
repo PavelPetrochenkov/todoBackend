@@ -1,13 +1,11 @@
 import { Context } from "koa";
+import { loginUser } from "../../../models/userModels";
 
 const login = async (ctx: Context) => {
   const userLogin = ctx.request.body.login;
   const userPassword = ctx.request.body.password;
 
-  const user = await ctx.mongo
-    .db("todoDB")
-    .collection("users")
-    .findOne({ login: userLogin, password: userPassword });
+  const user = await loginUser(userLogin, userPassword);
 
   if (!user) {
     ctx.response.status = 401;
@@ -19,7 +17,7 @@ const login = async (ctx: Context) => {
   } else {
     ctx.response.status = 200;
     ctx.body = {
-      id: user.id,
+      id: user._id,
       login: user.login,
       message: "Authorization completed",
     };

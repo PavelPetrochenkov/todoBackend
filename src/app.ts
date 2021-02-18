@@ -3,7 +3,6 @@ import Logger from "koa-logger";
 import cors from "koa-cors";
 import bodyParser from "koa-bodyparser";
 import configAllRouter from "./api/controllers";
-import Mongo from "koa-mongo";
 
 const app = new koa();
 
@@ -12,8 +11,6 @@ app.use(bodyParser());
 app.use(cors());
 
 app.use(Logger());
-
-app.use(Mongo());
 
 app.use(configAllRouter());
 

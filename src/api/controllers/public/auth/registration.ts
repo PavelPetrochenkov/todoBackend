@@ -1,12 +1,10 @@
 import { Context } from "koa";
+import UsersCoollection from "../../../models/userModels";
 
 const registration = async (ctx: Context) => {
   const userLogin = ctx.request.body.login;
 
-  const user = await ctx.mongo
-    .db("todoDB")
-    .collection("users")
-    .findOne({ login: userLogin });
+  const user = await UsersCoollection.findOne({ login: userLogin });
 
   if (user) {
     ctx.response.status = 400;
@@ -16,12 +14,7 @@ const registration = async (ctx: Context) => {
     };
     return;
   } else {
-    await ctx.mongo.db("todoDB").collection("users").insertOne({
-      id: Date.now().toString(),
-      login: userLogin,
-      password: ctx.request.body.password,
-    });
-
+    await addUser(userLogin, ctx.request.body.password);
     ctx.response.status = 201;
     ctx.body = {
       message: "User was created",
