@@ -2,8 +2,8 @@ import koa, { Context } from "koa";
 import Logger from "koa-logger";
 import cors from "koa-cors";
 import bodyParser from "koa-bodyparser";
-import authRouter from "./api/controllers/auth";
-import todosRouter from "./api/controllers/todos";
+import configAllRouter from "./api/controllers";
+import Mongo from "koa-mongo";
 
 const app = new koa();
 
@@ -13,11 +13,9 @@ app.use(cors());
 
 app.use(Logger());
 
-app.use(authRouter.routes());
-app.use(authRouter.allowedMethods());
+app.use(Mongo());
 
-app.use(todosRouter.routes());
-app.use(todosRouter.allowedMethods());
+app.use(configAllRouter());
 
 app.use(async (ctx: Context, next: () => void) => {
   try {
