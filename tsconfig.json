@@ -1,12 +1,14 @@
 {
-	"compilerOptions": {
-			"module": "commonjs",
-			"target": "es2017",
-			"noImplicitAny": true,
-			"outDir": "./dist",
-			"sourceMap": true
-	},
-	"include": [
-			"./src/**/*"
-, "server.js", "app.js"	]
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+},
+"exclude": [
+    "node_modules"
+]
 }

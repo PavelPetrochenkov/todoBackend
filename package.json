@@ -8,24 +8,34 @@
     "koa-ejs": "^4.3.0",
     "koa-logger": "^3.2.1",
     "koa-mount": "^4.0.0",
-    "koa-router": "^10.0.0"
+    "koa-router": "^10.0.0",
+    "ts-node": "^9.1.1"
   },
   "name": "todobackend",
   "version": "1.0.0",
   "description": "koa project",
-  "main": "server.js",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Petrochenkov Pavel",
   "license": "ISC",
   "devDependencies": {
     "@types/koa": "^2.11.8",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-json": "^2.0.18",
+    "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.4.1",
     "@types/node": "^14.14.28",
-    "nodemon": "^2.0.7",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.5"
-  }
+    "nodemon": "^2.0.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PavelPetrochenkov/todoBackend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PavelPetrochenkov/todoBackend/issues"
+  },
+  "homepage": "https://github.com/PavelPetrochenkov/todoBackend#readme"
 }

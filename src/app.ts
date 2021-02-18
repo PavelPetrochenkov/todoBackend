@@ -1,9 +1,12 @@
+import { Context } from "koa";
+
 const koa = require("koa");
 const Logger = require("koa-logger");
 const cors = require("koa-cors");
 const bodyParser = require("koa-bodyparser");
-const userRouter = require("./src/api/routes/userRoute");
-const todoRouter = require("./src/api/routes/todoRoute");
+
+const userRouter = require("./api/routes/userRoute");
+const todoRouter = require("./api/routes/todoRoute");
 
 const app = new koa();
 
@@ -18,7 +21,7 @@ app
   .use(todoRouter.routes())
   .use(todoRouter.allowedMethods());
 
-app.use(async (ctx, next) => {
+app.use(async (ctx: Context, next: () => void) => {
   try {
     await next();
   } catch (err) {
@@ -26,8 +29,5 @@ app.use(async (ctx, next) => {
     ctx.body = "Ops, something wrong happened:<br>" + err.message;
   }
 });
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`running on port ${PORT}`));
 
 module.exports = app;
