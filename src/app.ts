@@ -1,12 +1,9 @@
-import { Context } from "koa";
-
-const koa = require("koa");
-const Logger = require("koa-logger");
-const cors = require("koa-cors");
-const bodyParser = require("koa-bodyparser");
-
-const userRouter = require("./api/routes/userRoute");
-const todoRouter = require("./api/routes/todoRoute");
+import koa, { Context } from "koa";
+import Logger from "koa-logger";
+import cors from "koa-cors";
+import bodyParser from "koa-bodyparser";
+import authRouter from "./api/controllers/auth";
+import todosRouter from "./api/controllers/todos";
 
 const app = new koa();
 
@@ -14,12 +11,13 @@ app.use(bodyParser());
 
 app.use(cors());
 
-app
-  .use(Logger())
-  .use(userRouter.routes())
-  .use(userRouter.allowedMethods())
-  .use(todoRouter.routes())
-  .use(todoRouter.allowedMethods());
+app.use(Logger());
+
+app.use(authRouter.routes());
+app.use(authRouter.allowedMethods());
+
+app.use(todosRouter.routes());
+app.use(todosRouter.allowedMethods());
 
 app.use(async (ctx: Context, next: () => void) => {
   try {
@@ -30,4 +28,4 @@ app.use(async (ctx: Context, next: () => void) => {
   }
 });
 
-module.exports = app;
+export default app;
