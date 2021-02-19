@@ -1,10 +1,10 @@
-import koa, { Context } from "koa";
+import Koa, { Context } from "koa";
 import Logger from "koa-logger";
 import cors from "koa-cors";
 import bodyParser from "koa-bodyparser";
 import configAllRouter from "./api/controllers";
 
-const app = new koa();
+const app = new Koa();
 
 app.use(bodyParser());
 

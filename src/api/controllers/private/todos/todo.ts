@@ -13,7 +13,7 @@ export const addTodo = async (ctx: Context) => {
   } else {
     const { ops: todo } = await todosCollection.insertOne({
       text,
-      check: "false",
+      check: false,
     });
     ctx.response.status = 200;
     ctx.body = {
@@ -25,10 +25,10 @@ export const addTodo = async (ctx: Context) => {
 
 export const deleteTodo = async (ctx: Context) => {
   const { id } = ctx.request.body;
-  const response = await todosCollection.findOneAndDelete({
+  const { value: deletedTodo } = await todosCollection.findOneAndDelete({
     _id: ObjectId(id),
   });
-  if (!response.value) {
+  if (!deletedTodo) {
     ctx.response.status = 400;
     ctx.body = {
       reason: "INVALID_ID",
@@ -46,12 +46,11 @@ export const deleteTodo = async (ctx: Context) => {
 
 export const updateTodo = async (ctx: Context) => {
   const { id, ...opts } = ctx.request.body;
-  console.log(typeof opts.text === "string");
   if (typeof opts.check === "undefined" && typeof opts.text === "undefined") {
     ctx.response.status = 400;
     ctx.body = {
       reason: "INVALID_REQUEST",
-      message: "Request doesn't have valid data",
+      message: "Request doesn't have text or check",
     };
     return;
   } else if (

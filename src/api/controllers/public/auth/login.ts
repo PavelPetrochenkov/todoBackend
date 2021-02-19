@@ -20,9 +20,9 @@ const login = async (ctx: Context) => {
   } else {
     ctx.response.status = 200;
     ctx.body = {
+      message: "Ok",
       id: user._id,
       login: user.login,
-      message: "Ok",
     };
   }
 };

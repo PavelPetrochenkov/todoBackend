@@ -5,6 +5,7 @@ export const getTodos = async (ctx: Context) => {
   const todos = await todosCollection.find();
   ctx.response.status = 200;
   ctx.body = {
+    message: "Ok",
     todos,
   };
 };
@@ -15,6 +16,7 @@ export const checkAllTodos = async (ctx: Context) => {
   const todos = await todosCollection.find();
   ctx.response.status = 200;
   ctx.body = {
+    message: "Ok",
     todos,
   };
 };
@@ -24,6 +26,7 @@ export const deleteCompletedTodos = async (ctx: Context) => {
   const todos = await todosCollection.find();
   ctx.response.status = 200;
   ctx.body = {
+    message: "Ok",
     todos,
   };
 };
