@@ -2,9 +2,9 @@ import { Context } from "koa";
 import UsersCollection from "../../../models/userModels";
 
 const registration = async (ctx: Context) => {
-  const userLogin = ctx.request.body.login;
+  const { login, password } = ctx.request.body;
 
-  const user = await UsersCollection.findOne({ login: userLogin });
+  const user = await UsersCollection.findOne({ login });
 
   if (user) {
     ctx.response.status = 400;
@@ -15,8 +15,8 @@ const registration = async (ctx: Context) => {
     return;
   } else {
     await UsersCollection.insertOne({
-      login: userLogin,
-      password: ctx.request.body.password,
+      login,
+      password,
     });
     ctx.response.status = 201;
     ctx.body = {

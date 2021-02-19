@@ -2,12 +2,11 @@ import { Context } from "koa";
 import userCollection from "../../../models/userModels";
 
 const login = async (ctx: Context) => {
-  const userLogin = ctx.request.body.login;
-  const userPassword = ctx.request.body.password;
+  const { login, password } = ctx.request.body;
 
   const user = await userCollection.findOne({
-    login: userLogin,
-    password: userPassword,
+    login,
+    password,
   });
 
   if (!user) {
