@@ -1,11 +1,14 @@
 import { Context } from "koa";
-import { loginUser } from "../../../models/userModels";
+import userCollection from "../../../models/userModels";
 
 const login = async (ctx: Context) => {
   const userLogin = ctx.request.body.login;
   const userPassword = ctx.request.body.password;
 
-  const user = await loginUser(userLogin, userPassword);
+  const user = await userCollection.findOne({
+    login: userLogin,
+    password: userPassword,
+  });
 
   if (!user) {
     ctx.response.status = 401;
@@ -19,7 +22,7 @@ const login = async (ctx: Context) => {
     ctx.body = {
       id: user._id,
       login: user.login,
-      message: "Authorization completed",
+      message: "Ok",
     };
   }
 };

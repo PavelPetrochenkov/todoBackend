@@ -10,11 +10,15 @@ let db: DB = {};
 
 const dbName = "todoDB";
 
-(async () => {
-  await MongoClient.connect(url, function (err, database) {
-    if (err) throw err;
-    db.client = database.db(dbName);
-  });
-})();
+export const loadDB = async () => {
+  await MongoClient.connect(
+    url,
+    { useUnifiedTopology: true },
+    function (err, client) {
+      if (err) throw err;
+      db.client = client.db(dbName);
+    }
+  );
+};
 
 export default db;

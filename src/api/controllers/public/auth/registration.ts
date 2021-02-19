@@ -1,10 +1,10 @@
 import { Context } from "koa";
-import UsersCoollection from "../../../models/userModels";
+import UsersCollection from "../../../models/userModels";
 
 const registration = async (ctx: Context) => {
   const userLogin = ctx.request.body.login;
 
-  const user = await UsersCoollection.findOne({ login: userLogin });
+  const user = await UsersCollection.findOne({ login: userLogin });
 
   if (user) {
     ctx.response.status = 400;
@@ -14,10 +14,13 @@ const registration = async (ctx: Context) => {
     };
     return;
   } else {
-    await addUser(userLogin, ctx.request.body.password);
+    await UsersCollection.insertOne({
+      login: userLogin,
+      password: ctx.request.body.password,
+    });
     ctx.response.status = 201;
     ctx.body = {
-      message: "User was created",
+      message: "Ok",
     };
   }
 };
