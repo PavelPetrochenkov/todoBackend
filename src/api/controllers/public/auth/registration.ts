@@ -14,13 +14,14 @@ const registration = async (ctx: Context) => {
     };
     return;
   } else {
-    await UsersCollection.insertOne({
+    const { ops } = await UsersCollection.insertOne({
       login,
       password,
     });
     ctx.response.status = 201;
     ctx.body = {
-      message: "Ok",
+      id: ops[0]._id,
+      login: ops[0].login,
     };
   }
 };

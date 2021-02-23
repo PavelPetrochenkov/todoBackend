@@ -1,24 +1,20 @@
-import { ObjectId } from "mongodb";
 import Router from "koa-router";
 import todos from "./todos";
-import userCollection from "../../models/userModels";
+import { verifyToken } from "../../../jwt/jwt";
 
 export default function configPrivateRouter() {
   const router: Router = new Router();
 
   router.use(async (ctx, next) => {
-    const { userId } = ctx.request.body;
-    const user = await userCollection.findOne({ _id: ObjectId(userId) });
-
-    if (!user) {
-      ctx.response.status = 400;
-      ctx.body = {
-        reason: "INVALID_USER_ID",
-        message: "User ID wrong",
-      };
-      return;
-    } else {
+    const token = ctx.request.header.authorization.split(" ")[1];
+    try {
+      verifyToken(token);
       await next();
+    } catch {
+      ctx.status = 401;
+      ctx.body = {
+        reason: "INVALID_TOKEN",
+      };
     }
   });
 

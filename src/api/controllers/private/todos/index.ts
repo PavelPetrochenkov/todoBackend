@@ -5,17 +5,17 @@ import { addTodo, deleteTodo, updateTodo } from "./todo";
 export default function a() {
   let todosRouter: Router = new Router();
 
-  todosRouter.get("/todo/all", getTodos);
+  todosRouter.post("/todo/all", getTodos);
 
-  todosRouter.patch("/todo/all", checkAllTodos);
+  todosRouter.post("/todo/all/check", checkAllTodos);
 
-  todosRouter.delete("/todo/all", deleteCompletedTodos);
+  todosRouter.post("/todo/all/delete", deleteCompletedTodos);
 
   todosRouter.post("/todo", addTodo);
 
-  todosRouter.patch("/todo", updateTodo);
+  todosRouter.post("/todo/change", updateTodo);
 
-  todosRouter.delete("/todo", deleteTodo);
+  todosRouter.post("/todo/delete", deleteTodo);
 
   return [todosRouter.routes(), todosRouter.allowedMethods()];
 }

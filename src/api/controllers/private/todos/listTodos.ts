@@ -19,7 +19,7 @@ export const checkAllTodos = async (ctx: Context) => {
 
   await todosCollection.updateMany({ check, userId: ObjectId(userId) });
 
-  const todos = await todosCollection.find();
+  const todos = await todosCollection.find({ userId: ObjectId(userId) });
 
   ctx.response.status = 200;
   ctx.body = {
@@ -33,7 +33,7 @@ export const deleteCompletedTodos = async (ctx: Context) => {
 
   await todosCollection.deleteMany({ check: true, userId: ObjectId(userId) });
 
-  const todos = await todosCollection.find();
+  const todos = await todosCollection.find({ userId: ObjectId(userId) });
 
   ctx.response.status = 200;
   ctx.body = {

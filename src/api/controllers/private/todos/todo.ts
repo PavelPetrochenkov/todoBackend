@@ -64,6 +64,7 @@ export const updateTodo = async (ctx: Context) => {
   await todosCollection.findOneAndUpdate({
     _id: ObjectId(id),
     ...opts,
+    userId: ObjectId(opts.userId),
   });
 
   const todo = await todosCollection.findOne({ _id: ObjectId(id) });
