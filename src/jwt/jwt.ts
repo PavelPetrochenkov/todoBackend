@@ -2,13 +2,13 @@ import jwt from "jsonwebtoken";
 import randKey from "random-key";
 
 const jwtKey = "my_secret_key";
-const jwtExpirySeconds = 5;
+const jwtTime = 5;
 const jwtRefreshTime = 20;
 
 export const createToken = (id: string) =>
   jwt.sign({ id }, jwtKey, {
     algorithm: "HS256",
-    expiresIn: jwtExpirySeconds,
+    expiresIn: jwtTime,
   });
 
 export const createRefreshToken = (id: string) =>

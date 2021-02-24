@@ -1,5 +1,6 @@
+import { ObjectId } from "mongodb";
 import { Context } from "koa";
-import userCollection from "../../../models/userModels";
+import refreshTokensCollection from "../../../models/refreshTokensModels";
 import jwt_decode from "jwt-decode";
 import {
   createToken,
@@ -11,12 +12,20 @@ const refresh = async (ctx: Context) => {
   const { refreshToken } = ctx.request.body;
   try {
     verifyToken(refreshToken);
-    const decoded: any = jwt_decode(refreshToken);
+    const decoded: { id: string } = jwt_decode(refreshToken);
+
+    const res = await refreshTokensCollection.findOne({
+      _id: ObjectId(decoded.id),
+    });
+    if (!res && res.refreshToken !== refreshToken) {
+      ctx.status = 401;
+      return;
+    }
     const newToken = createToken(decoded.id);
     const newRefreshToken = createRefreshToken(decoded.id);
 
-    await userCollection.findOneAndUpdate({
-      _id: decoded._id,
+    await refreshTokensCollection.updateOne({
+      _id: ObjectId(decoded.id),
       refreshToken: newRefreshToken,
     });
 
@@ -26,10 +35,7 @@ const refresh = async (ctx: Context) => {
       refreshToken: newRefreshToken,
     };
   } catch {
-    ctx.status = 400;
-    ctx.body = {
-      reason: "INVALID_RETOKEN",
-    };
+    ctx.status = 401;
   }
 };
 

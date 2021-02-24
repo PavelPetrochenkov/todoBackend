@@ -1,5 +1,6 @@
 import { Context } from "koa";
 import userCollection from "../../../models/userModels";
+import refreshTokensCollection from "../../../models/refreshTokensModels";
 import { createToken, createRefreshToken } from "../../../../jwt/jwt";
 
 const login = async (ctx: Context) => {
@@ -20,7 +21,7 @@ const login = async (ctx: Context) => {
     const token = createToken(user._id);
     const refreshToken = createRefreshToken(user._id);
 
-    await userCollection.findOneAndUpdate({
+    await refreshTokensCollection.updateOne({
       _id: user._id,
       refreshToken,
     });
