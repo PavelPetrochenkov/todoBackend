@@ -11,7 +11,7 @@ export default function configPrivateRouter() {
       verifyToken(token);
       await next();
     } catch {
-      ctx.status = 401;
+      ctx.status = 403;
       ctx.body = {
         reason: "INVALID_TOKEN",
       };

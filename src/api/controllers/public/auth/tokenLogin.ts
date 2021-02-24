@@ -1,14 +1,15 @@
-import { ObjectId } from "mongodb";
 import { Context } from "koa";
-import refreshTokensCollection from "../../../models/refreshTokensModels";
+import { ObjectId } from "mongodb";
 import jwt_decode from "jwt-decode";
 import {
   createToken,
   createRefreshToken,
   verifyToken,
 } from "../../../../jwt/jwt";
+import refreshTokensCollection from "../../../models/refreshTokensModels";
+import userCollection from "../../../models/userModels";
 
-const refresh = async (ctx: Context) => {
+const tokenLogin = async (ctx: Context) => {
   const { refreshToken } = ctx.request.body;
   try {
     const decoded: { id: string } = jwt_decode(refreshToken);
@@ -16,6 +17,7 @@ const refresh = async (ctx: Context) => {
     const res = await refreshTokensCollection.findOne({
       _id: ObjectId(decoded.id),
     });
+
     if (!res && res.refreshToken !== refreshToken) {
       ctx.status = 401;
       return;
@@ -29,8 +31,13 @@ const refresh = async (ctx: Context) => {
       refreshToken: newRefreshToken,
     });
 
+    const user = await userCollection.findOne({
+      _id: ObjectId(decoded.id),
+    });
     ctx.status = 200;
     ctx.body = {
+      id: decoded.id,
+      login: user.login,
       token: newToken,
       refreshToken: newRefreshToken,
     };
@@ -39,4 +46,4 @@ const refresh = async (ctx: Context) => {
   }
 };
 
-export default refresh;
+export default tokenLogin;

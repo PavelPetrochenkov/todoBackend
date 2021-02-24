@@ -1,4 +1,5 @@
 import { Context } from "koa";
+import jwt from "koa-jwt";
 import userCollection from "../../../models/userModels";
 import refreshTokensCollection from "../../../models/refreshTokensModels";
 import { createToken, createRefreshToken } from "../../../../jwt/jwt";

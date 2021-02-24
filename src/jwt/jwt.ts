@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import randKey from "random-key";
 
 const jwtKey = "my_secret_key";
-const jwtTime = 5;
+const jwtTime = 3;
 const jwtRefreshTime = 20;
 
 export const createToken = (id: string) =>
