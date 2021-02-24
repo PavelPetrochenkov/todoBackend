@@ -9,7 +9,7 @@ import {
 import refreshTokensCollection from "../../../models/refreshTokensModels";
 import userCollection from "../../../models/userModels";
 
-const tokenLogin = async (ctx: Context) => {
+const getUserInfo = async (ctx: Context) => {
   const { refreshToken } = ctx.request.body;
   try {
     const decoded: { id: string } = jwt_decode(refreshToken);
@@ -46,4 +46,4 @@ const tokenLogin = async (ctx: Context) => {
   }
 };
 
-export default tokenLogin;
+export default getUserInfo;
