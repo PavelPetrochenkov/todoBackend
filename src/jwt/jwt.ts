@@ -3,7 +3,7 @@ import randKey from "random-key";
 
 const jwtKey = "my_secret_key";
 const jwtExpirySeconds = 5;
-const jwtRefreshTime = 300;
+const jwtRefreshTime = 20;
 
 export const createToken = (id: string) =>
   jwt.sign({ id }, jwtKey, {

@@ -1,4 +1,5 @@
 import { Context } from "koa";
+import userCollection from "../../../models/userModels";
 import jwt_decode from "jwt-decode";
 import {
   createToken,
@@ -13,13 +14,19 @@ const refresh = async (ctx: Context) => {
     const decoded: any = jwt_decode(refreshToken);
     const newToken = createToken(decoded.id);
     const newRefreshToken = createRefreshToken(decoded.id);
+
+    await userCollection.findOneAndUpdate({
+      _id: decoded._id,
+      refreshToken: newRefreshToken,
+    });
+
     ctx.status = 200;
     ctx.body = {
       token: newToken,
       refreshToken: newRefreshToken,
     };
   } catch {
-    ctx.status = 401;
+    ctx.status = 400;
     ctx.body = {
       reason: "INVALID_RETOKEN",
     };
