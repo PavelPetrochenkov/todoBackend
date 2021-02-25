@@ -12,10 +12,10 @@ import userCollection from "../../../models/userModels";
 const getUserInfo = async (ctx: Context) => {
   const { refreshToken } = ctx.request.body;
   try {
-    const decoded: { id: string } = jwt_decode(refreshToken);
+    const decodedToken: { id: string } = jwt_decode(refreshToken);
 
     const res = await refreshTokensCollection.findOne({
-      _id: ObjectId(decoded.id),
+      _id: ObjectId(decodedToken.id),
     });
 
     if (!res && res.refreshToken !== refreshToken) {
@@ -23,20 +23,20 @@ const getUserInfo = async (ctx: Context) => {
       return;
     }
     verifyToken(refreshToken);
-    const newToken = createToken(decoded.id);
-    const newRefreshToken = createRefreshToken(decoded.id);
+    const newToken = createToken(decodedToken.id);
+    const newRefreshToken = createRefreshToken(decodedToken.id);
 
     await refreshTokensCollection.updateOne({
-      _id: ObjectId(decoded.id),
+      _id: ObjectId(decodedToken.id),
       refreshToken: newRefreshToken,
     });
 
     const user = await userCollection.findOne({
-      _id: ObjectId(decoded.id),
+      _id: ObjectId(decodedToken.id),
     });
     ctx.status = 200;
     ctx.body = {
-      id: decoded.id,
+      id: decodedToken.id,
       login: user.login,
       token: newToken,
       refreshToken: newRefreshToken,

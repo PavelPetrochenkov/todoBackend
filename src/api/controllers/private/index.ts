@@ -1,22 +1,23 @@
 import Router from "koa-router";
 import todos from "./todos";
-import { verifyToken } from "../../../jwt/jwt";
+import jwt from "koa-jwt";
 
 export default function configPrivateRouter() {
   const router: Router = new Router();
 
-  router.use(async (ctx, next) => {
-    const token = ctx.request.header.authorization.split(" ")[1];
-    try {
-      verifyToken(token);
-      await next();
-    } catch {
-      ctx.status = 403;
-      ctx.body = {
-        reason: "INVALID_TOKEN",
-      };
-    }
+  router.use(function (ctx, next) {
+    return next().catch((err) => {
+      if (401 == err.status) {
+        ctx.status = 403;
+        ctx.body =
+          "Protected resource, use Authorization header to get access\n";
+      } else {
+        throw err;
+      }
+    });
   });
+
+  router.use(jwt({ secret: "my_secret_key" }));
 
   router.use(...todos());
 
