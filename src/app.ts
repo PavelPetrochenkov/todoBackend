@@ -14,13 +14,4 @@ app.use(bodyParser());
 
 app.use(configAllRouter());
 
-app.use(async (ctx: Context, next: () => void) => {
-  try {
-    await next();
-  } catch (err) {
-    console.error(err);
-    ctx.body = "Ops, something wrong happened:<br>" + err.message;
-  }
-});
-
 export default app;

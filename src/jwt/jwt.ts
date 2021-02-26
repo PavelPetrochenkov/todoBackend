@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import randKey from "random-key";
 
 export const JWT_KEY = "my_secret_key";
-const jwtTime = 60;
-const jwtRefreshTime = 60 * 3;
+const jwtTime = 60 * 3;
+const jwtRefreshTime = 60 * 10;
 
 export const createToken = (id: string) =>
   jwt.sign({ id }, JWT_KEY, {
