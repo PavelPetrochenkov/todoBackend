@@ -18,7 +18,7 @@ const getUserInfo = async (ctx: Context) => {
       _id: ObjectId(decodedToken.id),
     });
 
-    if (!res && res.refreshToken !== refreshToken) {
+    if (!res || res.refreshToken !== refreshToken) {
       ctx.status = 401;
       return;
     }
@@ -34,6 +34,7 @@ const getUserInfo = async (ctx: Context) => {
     const user = await userCollection.findOne({
       _id: ObjectId(decodedToken.id),
     });
+
     ctx.status = 200;
     ctx.body = {
       id: decodedToken.id,

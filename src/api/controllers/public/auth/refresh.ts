@@ -16,7 +16,7 @@ const refresh = async (ctx: Context) => {
     const res = await refreshTokensCollection.findOne({
       _id: ObjectId(decoded.id),
     });
-    if (!res && res.refreshToken !== refreshToken) {
+    if (!res || res.refreshToken !== refreshToken) {
       ctx.status = 401;
       return;
     }
