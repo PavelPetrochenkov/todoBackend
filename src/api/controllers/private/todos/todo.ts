@@ -5,6 +5,7 @@ import { getSocket } from "../../../../server";
 
 export const addTodo = async (ctx: Context) => {
   try {
+    console.log(ctx.request.body);
     const { text, userId, socketId } = ctx.request.body;
 
     console.log(socketId);

@@ -1,6 +1,4 @@
-import { ObjectId } from "mongodb";
 const socketIo = require("socket.io");
-import todosCollection from "../api/models/todosModels";
 
 export const initSocket = (server) => {
   const io = socketIo(server, {
