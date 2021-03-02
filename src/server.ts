@@ -15,6 +15,6 @@ server.listen(PORT, () =>
 
 const io = initSocket(server);
 
-export const getIO = () => {
-  return io;
+export const getSocket = (socketId) => {
+  return io.of("/").sockets.get(socketId);
 };
