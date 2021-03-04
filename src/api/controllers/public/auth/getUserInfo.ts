@@ -1,5 +1,4 @@
 import { Context } from "koa";
-import { ObjectId } from "mongodb";
 import jwt_decode from "jwt-decode";
 import {
   createToken,
@@ -15,10 +14,10 @@ const getUserInfo = async (ctx: Context) => {
     const decodedToken: { id: string } = jwt_decode(refreshToken);
 
     const res = await refreshTokensCollection.findOne({
-      _id: ObjectId(decodedToken.id),
+      id: decodedToken.id,
     });
 
-    if (!res || res.refreshToken !== refreshToken) {
+    if (!res || res.refreshtoken !== refreshToken) {
       ctx.status = 401;
       return;
     }
@@ -27,12 +26,12 @@ const getUserInfo = async (ctx: Context) => {
     const newRefreshToken = createRefreshToken(decodedToken.id);
 
     await refreshTokensCollection.updateOne({
-      _id: ObjectId(decodedToken.id),
+      id: decodedToken.id,
       refreshToken: newRefreshToken,
     });
 
-    const user = await userCollection.findOne({
-      _id: ObjectId(decodedToken.id),
+    const user = await userCollection.findOneById({
+      id: decodedToken.id,
     });
 
     ctx.status = 200;

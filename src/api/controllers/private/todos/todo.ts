@@ -1,5 +1,4 @@
 import { Context } from "koa";
-import { ObjectId } from "mongodb";
 import todosCollection from "../../../models/todosModels";
 import { getSocket } from "../../../../server";
 
@@ -14,20 +13,20 @@ export const addTodo = async (ctx: Context) => {
         message: "Text cant be empty",
       };
     } else {
-      const { ops: todo } = await todosCollection.insertOne({
+      const todo = await todosCollection.insertOne({
         text,
-        userId: ObjectId(userId),
+        userId,
         check: false,
       });
 
       getSocket(socketId)
         .broadcast.to("Socket:" + userId)
-        .emit("addTodo", todo[0]);
+        .emit("addTodo", todo);
 
       ctx.response.status = 200;
       ctx.body = {
         message: "Ok",
-        todo: todo[0],
+        todo: todo,
       };
     }
   } catch (err) {
@@ -40,7 +39,7 @@ export const deleteTodo = async (ctx: Context) => {
     const { id, userId, socketId } = ctx.request.body;
 
     await todosCollection.findOneAndDelete({
-      _id: ObjectId(id),
+      id,
     });
 
     getSocket(socketId)
@@ -80,12 +79,12 @@ export const updateTodo = async (ctx: Context) => {
     }
 
     await todosCollection.findOneAndUpdate({
-      _id: ObjectId(id),
+      id,
       ...opts,
-      userId: ObjectId(userId),
+      userId,
     });
 
-    const todo = await todosCollection.findOne({ _id: ObjectId(id) });
+    const todo = await todosCollection.findOne({ id });
 
     getSocket(socketId)
       .broadcast.to("Socket:" + userId)

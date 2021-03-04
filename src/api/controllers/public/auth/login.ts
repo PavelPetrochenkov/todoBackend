@@ -19,18 +19,18 @@ const login = async (ctx: Context) => {
       };
       return;
     } else {
-      const token = createToken(user._id);
-      const refreshToken = createRefreshToken(user._id);
+      const token = createToken(user.id);
+      const refreshToken = createRefreshToken(user.id);
 
       await refreshTokensCollection.updateOne({
-        _id: user._id,
+        id: user.id,
         refreshToken,
       });
 
       ctx.response.status = 200;
       ctx.body = {
         message: "Ok",
-        id: user._id,
+        id: user.id,
         login: user.login,
         token,
         refreshToken,

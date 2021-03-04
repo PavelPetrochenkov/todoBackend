@@ -5,7 +5,7 @@ import { initSocket } from "./socket";
 
 const PORT = process.env.PORT || 1328;
 
-loadDB();
+loadDB(app);
 
 const server = http.createServer(app.callback());
 
