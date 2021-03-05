@@ -3,30 +3,27 @@ import db from "../../database";
 const dbCollection = "todos";
 
 const find = async (opts: any = {}) => {
-  const res = await db
+  const res = await db(dbCollection)
     .select("*")
-    .from(dbCollection)
     .where("userid", opts.userId)
     .orderBy("id", "asc");
   return res;
 };
 
 const findOne = async (opts) => {
-  const res = await db.select("*").from(dbCollection).where("id", opts.id);
+  const res = await db(dbCollection).select("*").where("id", opts.id);
   return res[0];
 };
 
 const insertOne = async (opts) => {
-  const res = await db
-    .insert({ userid: opts.userid, text: opts.text, ischeck: opts.check })
-    .into(dbCollection)
+  const res = await db(dbCollection)
+    .insert({ userid: opts.userId, text: opts.text, ischeck: opts.check })
     .returning("*");
-
   return res[0];
 };
 
 const findOneAndDelete = async (opts) => {
-  const res = await db.del().from(dbCollection).where({ id: opts.id });
+  const res = await db(dbCollection).del().where({ id: opts.id });
   return await res;
 };
 
@@ -37,18 +34,15 @@ const findOneAndUpdate = async ({ id, userId, ...opts }) => {
 };
 
 const updateMany = async (opts) => {
-  return await db.query(
-    `UPDATE ${dbCollection} SET ischeck = '${!opts.check}' WHERE userid = '${
-      opts.userId
-    }';`
-  );
+  return await db(dbCollection)
+    .update({ ischeck: !opts.check })
+    .where({ userid: opts.userId });
 };
 
 const deleteMany = async (opts) => {
-  const res = await db
+  const res = await db(dbCollection)
     .del()
-    .from(dbCollection)
-    .where({ userId: opts.userId, ischeck: opts.check });
+    .where({ userid: opts.userId, ischeck: opts.check });
   return await res;
 };
 

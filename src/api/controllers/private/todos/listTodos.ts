@@ -30,7 +30,6 @@ export const checkAllTodos = async (ctx: Context) => {
       .broadcast.to("Socket:" + userId)
       .emit("checkAllTodos", todos);
 
-    console.log(todos);
     ctx.response.status = 200;
     ctx.body = {
       message: "Ok",

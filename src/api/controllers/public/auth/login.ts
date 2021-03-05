@@ -11,7 +11,7 @@ const login = async (ctx: Context) => {
       password,
     });
 
-    if (!user) {
+    if (!user || user.password !== password) {
       ctx.response.status = 401;
       ctx.body = {
         reason: "INVALID_USER_AUTHENTICATION",

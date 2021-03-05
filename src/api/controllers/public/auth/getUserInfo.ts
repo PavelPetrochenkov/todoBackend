@@ -12,7 +12,6 @@ const getUserInfo = async (ctx: Context) => {
   const { refreshToken } = ctx.request.body;
   try {
     const decodedToken: { id: string } = jwt_decode(refreshToken);
-
     const res = await refreshTokensCollection.findOne({
       id: decodedToken.id,
     });
@@ -21,6 +20,7 @@ const getUserInfo = async (ctx: Context) => {
       ctx.status = 401;
       return;
     }
+
     verifyToken(refreshToken);
     const newToken = createToken(decodedToken.id);
     const newRefreshToken = createRefreshToken(decodedToken.id);

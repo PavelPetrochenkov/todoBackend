@@ -60,7 +60,7 @@ export const updateTodo = async (ctx: Context) => {
   try {
     const { id, userId, socketId, ...opts } = ctx.request.body;
 
-    if (!opts.hasOwnProperty("text") && !opts.hasOwnProperty("check")) {
+    if (!opts.hasOwnProperty("text") && !opts.hasOwnProperty("ischeck")) {
       ctx.response.status = 400;
       ctx.body = {
         reason: "INVALID_REQUEST",
