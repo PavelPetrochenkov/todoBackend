@@ -13,7 +13,7 @@ const getUserInfo = async (ctx: Context) => {
   try {
     const decodedToken: { id: string } = jwt_decode(refreshToken);
     const res = await refreshTokensCollection.findOne({
-      id: decodedToken.id,
+      userid: decodedToken.id,
     });
 
     if (!res || res.refreshtoken !== refreshToken) {
@@ -26,8 +26,8 @@ const getUserInfo = async (ctx: Context) => {
     const newRefreshToken = createRefreshToken(decodedToken.id);
 
     await refreshTokensCollection.updateOne({
-      id: decodedToken.id,
-      refreshToken: newRefreshToken,
+      userid: decodedToken.id,
+      refreshtoken: newRefreshToken,
     });
 
     const user = await userCollection.findOneById({

@@ -2,48 +2,51 @@ import db from "../../database";
 
 const dbCollection = "todos";
 
-const find = async (opts: any = {}) => {
-  const res = await db(dbCollection)
-    .select("*")
-    .where("userid", opts.userId)
-    .orderBy("id", "asc");
-  return res;
+const find = (opts: { userid: string }) => {
+  return db(dbCollection).select("*").where(opts).orderBy("id", "asc");
 };
 
-const findOne = async (opts) => {
-  const res = await db(dbCollection).select("*").where("id", opts.id);
+const findOne = async (opts: { id: string }) => {
+  const res = await db(dbCollection).select("*").where(opts);
   return res[0];
 };
 
-const insertOne = async (opts) => {
-  const res = await db(dbCollection)
-    .insert({ userid: opts.userId, text: opts.text, ischeck: opts.check })
-    .returning("*");
+const insertOne = async (opts: {
+  userid: string;
+  text: string;
+  ischeck: boolean;
+}) => {
+  const res = await db(dbCollection).insert(opts).returning("*");
   return res[0];
 };
 
-const findOneAndDelete = async (opts) => {
-  const res = await db(dbCollection).del().where({ id: opts.id });
-  return await res;
+const findOneAndDelete = (opts: { id: string }) => {
+  return db(dbCollection).del().where(opts);
 };
 
-const findOneAndUpdate = async ({ id, userId, ...opts }) => {
-  return await db(dbCollection)
-    .update({ ...opts })
-    .where({ id });
+const findOneAndUpdate = ({
+  id,
+  ...opts
+}: {
+  id: string;
+  text?: string;
+  ischeck?: string;
+}) => {
+  return db(dbCollection).update(opts).where({ id });
 };
 
-const updateMany = async (opts) => {
-  return await db(dbCollection)
-    .update({ ischeck: !opts.check })
-    .where({ userid: opts.userId });
+const updateMany = ({
+  ischeck,
+  ...opts
+}: {
+  ischeck: boolean;
+  userid: string;
+}) => {
+  return db(dbCollection).update({ ischeck }).where(opts);
 };
 
-const deleteMany = async (opts) => {
-  const res = await db(dbCollection)
-    .del()
-    .where({ userid: opts.userId, ischeck: opts.check });
-  return await res;
+const deleteMany = (opts) => {
+  return db(dbCollection).del().where(opts);
 };
 
 export default {

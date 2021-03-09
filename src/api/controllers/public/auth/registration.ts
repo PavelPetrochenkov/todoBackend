@@ -21,11 +21,11 @@ const registration = async (ctx: Context) => {
     });
 
     const token = createToken(todo.id);
-    const refreshToken = createRefreshToken(todo.id);
+    const refreshtoken = createRefreshToken(todo.id);
 
     await refreshTokensCollection.updateOne({
-      id: todo.id,
-      refreshToken,
+      userid: todo.id,
+      refreshtoken,
     });
 
     ctx.response.status = 201;
@@ -33,7 +33,7 @@ const registration = async (ctx: Context) => {
       id: todo.id,
       login: todo.login,
       token,
-      refreshToken,
+      refreshToken: refreshtoken,
     };
   }
 };

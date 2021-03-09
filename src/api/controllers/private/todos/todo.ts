@@ -15,8 +15,8 @@ export const addTodo = async (ctx: Context) => {
     } else {
       const todo = await todosCollection.insertOne({
         text,
-        userId,
-        check: false,
+        userid: userId,
+        ischeck: false,
       });
 
       getSocket(socketId)
@@ -81,7 +81,6 @@ export const updateTodo = async (ctx: Context) => {
     await todosCollection.findOneAndUpdate({
       id,
       ...opts,
-      userId,
     });
 
     const todo = await todosCollection.findOne({ id });
