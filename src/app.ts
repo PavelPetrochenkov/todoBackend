@@ -10,7 +10,13 @@ app.use(Logger());
 
 app.use(cors());
 
-app.use(bodyParser());
+app.use(bodyParser({
+  formLimit: "10mb",
+  jsonLimit: "10mb",
+  textLimit: "10mb",
+  enableTypes: ['json', 'form', 'text']
+}));
+
 
 app.use(configAllRouter());
 

@@ -1,6 +1,6 @@
 import db from "../../database";
 
-const dbCollection = "todos";
+const dbCollection = "files";
 const find = (opts = {}) => {
   return db.client.collection(dbCollection).find(opts).toArray();
 };

@@ -4,7 +4,7 @@ import { getSocket } from "../../../../server";
 
 export const getTodos = async (ctx: Context) => {
   try {
-    const { userId } = ctx.request.body;
+    const { userId } = ctx.request.body as any;
 
     const todos = await todosCollection.find({ userid: userId });
 
@@ -20,7 +20,7 @@ export const getTodos = async (ctx: Context) => {
 
 export const checkAllTodos = async (ctx: Context) => {
   try {
-    const { check, userId, socketId } = ctx.request.body;
+    const { check, userId, socketId } = ctx.request.body as any;
 
     await todosCollection.updateMany({ ischeck: !check, userid: userId });
 
@@ -42,7 +42,7 @@ export const checkAllTodos = async (ctx: Context) => {
 
 export const deleteCompletedTodos = async (ctx: Context) => {
   try {
-    const { userId, socketId } = ctx.request.body;
+    const { userId, socketId } = ctx.request.body as any;
 
     await todosCollection.deleteMany({ ischeck: true, userid: userId });
 

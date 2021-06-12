@@ -4,7 +4,7 @@ import { getSocket } from "../../../../server";
 
 export const addTodo = async (ctx: Context) => {
   try {
-    const { text, userId, socketId } = ctx.request.body;
+    const { text, userId, socketId } = ctx.request.body as any;
 
     if (!text.length) {
       ctx.response.status = 400;
@@ -36,7 +36,7 @@ export const addTodo = async (ctx: Context) => {
 
 export const deleteTodo = async (ctx: Context) => {
   try {
-    const { id, userId, socketId } = ctx.request.body;
+    const { id, userId, socketId } = ctx.request.body as any;
 
     await todosCollection.findOneAndDelete({
       id,
@@ -58,7 +58,7 @@ export const deleteTodo = async (ctx: Context) => {
 
 export const updateTodo = async (ctx: Context) => {
   try {
-    const { id, userId, socketId, ...opts } = ctx.request.body;
+    const { id, userId, socketId, ...opts } = ctx.request.body as any;
 
     if (!opts.hasOwnProperty("text") && !opts.hasOwnProperty("ischeck")) {
       ctx.response.status = 400;

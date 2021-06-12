@@ -2,19 +2,15 @@ import db from "../../database";
 
 const dbCollection = "refreshtokens";
 
-const updateOne = (opts: { userid: string; refreshtoken: string }) => {
-  return db(dbCollection)
-    .insert(opts)
-    .onConflict("userid")
-    .merge({
-      refreshtoken: opts.refreshtoken,
-    })
-    .returning("*");
+
+const updateOne = (opts) => {
+  return db.client
+    .collection(dbCollection)
+    .updateOne({ _id: opts._id }, { $set: opts }, { upsert: true });
 };
 
-const findOne = async (opts: { userid: string }) => {
-  const res = await db(dbCollection).select("*").where(opts);
-  return res[0];
+const findOne = (opts) => {
+  return db.client.collection(dbCollection).findOne(opts);
 };
 
 export default {

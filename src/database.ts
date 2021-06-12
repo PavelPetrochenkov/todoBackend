@@ -1,19 +1,25 @@
-const knex = require("knex");
+
+import { MongoClient } from "mongodb";
+
+const url = "mongodb://localhost:27017";
+
+type DB = {
+  client?: any;
+};
+
+let db: DB = {};
 
 const dbName = "todoDB";
 
-const db = knex({
-  client: "pg",
-  connection: {
-    host: "localhost",
-    user: "postgres",
-    password: "123123",
-    database: dbName,
-  },
-});
-
-export const loadDB = async (app) => {
-  app.pool = db;
+export const loadDB = async () => {
+  await MongoClient.connect(
+    url,
+    { useUnifiedTopology: true },
+    function (err, client) {
+      if (err) throw err;
+      db.client = client.db(dbName);
+    }
+  );
 };
 
 export default db;

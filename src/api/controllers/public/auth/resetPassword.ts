@@ -5,7 +5,7 @@ import { createToken, createRefreshToken } from "../../../../jwt/jwt";
 
 export const checkLogin = async (ctx: Context) => {
   try {
-    const { login } = ctx.request.body;
+    const { login } = ctx.request.body as any;
     const user = await userCollection.findOne(login);
 
     console.log(user);
@@ -32,7 +32,7 @@ export const checkLogin = async (ctx: Context) => {
 
 export const resetPassword = async (ctx: Context) => {
   try {
-    const { login, password } = ctx.request.body;
+    const { login, password } = ctx.request.body as any;
     const user = await userCollection.findOne({
       login,
     });
@@ -45,10 +45,10 @@ export const resetPassword = async (ctx: Context) => {
       };
       return;
     } else {
-      await userCollection.findOneAndUpdate({
-        login,
-        password,
-      });
+      // await userCollection.findOneAndUpdate({
+      //   login,
+      //   password,
+      // });
 
       const token = createToken(user.id);
       const refreshtoken = createRefreshToken(user.id);
