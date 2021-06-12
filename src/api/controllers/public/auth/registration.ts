@@ -4,7 +4,7 @@ import { createToken, createRefreshToken } from "../../../../jwt/jwt";
 import refreshTokensCollection from "../../../models/refreshTokensModels";
 
 const registration = async (ctx: Context) => {
-  const { login, password } = ctx.request.body;
+  const { login, password } = ctx.request.body as any;
   const user = await UsersCollection.findOne({ login });
 
   if (user !== undefined) {

@@ -9,7 +9,7 @@ import refreshTokensCollection from "../../../models/refreshTokensModels";
 import userCollection from "../../../models/userModels";
 
 const getUserInfo = async (ctx: Context) => {
-  const { refreshToken } = ctx.request.body;
+  const { refreshToken } = ctx.request.body as any;
   try {
     const decodedToken: { id: string } = jwt_decode(refreshToken);
     const res = await refreshTokensCollection.findOne({

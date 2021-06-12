@@ -9,7 +9,7 @@ import {
 
 const refresh = async (ctx: Context) => {
   try {
-    const { refreshToken } = ctx.request.body;
+    const { refreshToken } = ctx.request.body as any;
     const decoded: { id: string } = jwt_decode(refreshToken);
 
     const res = await refreshTokensCollection.findOne({

@@ -5,7 +5,7 @@ import { createToken, createRefreshToken } from "../../../../jwt/jwt";
 
 const login = async (ctx: Context) => {
   try {
-    const { login, password } = ctx.request.body;
+    const { login, password } = ctx.request.body as any;
     const user = await userCollection.findOne({
       login,
     });

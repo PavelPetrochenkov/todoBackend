@@ -3,7 +3,7 @@ import app from "./app";
 import { loadDB } from "./database";
 import { initSocket } from "./socket";
 
-const PORT = process.env.PORT || 1328;
+const PORT = process.env.PORT || 1382;
 
 loadDB(app);
 
